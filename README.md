@@ -15,11 +15,37 @@
 
 ## Используемые данные
 
-| Тип объекта  | Количество | Цель включения |
-| :------------ |:---------------:| :-----|
-| Школы      | 1 | 2 |
-| Больницы      | 1        |   2 |
-| Метро | 1        |    2 |
-| Культурные объекты | 1        |    2 |
-| Университеты | 1        |    2 |
-| Религиозные объекты | 1        |    2 |
+| Категория  | Тип объекта  | Количество | Ссылка  |
+| :------------| :------------ |:---------------:| :-----|
+| Образование      | Университеты      | 295 | https://data.mos.ru/opendata/7710878000-obrazovatelnye-organizatsii-vysshego-obrazovaniya-osushchestvlyayushchie-deyatelnost-na-territorii-goroda-moskvy-i-predostavlyayushchie-pravo-na-besplatnoe-oformlenie-sotsialnoy-karty |
+| Образование      | Школы_1      | 590 | https://data.mos.ru/opendata/7719028495-obrazovatelnye-uchrejdeniya-goroda-moskvy |
+| Образование      | Школы_2      | 149 | https://data.mos.ru/opendata/7719028495-perechen-negosudarstvennyh-doshkolnyh-obrazovatelnyh-organizatsiy-goroda-moskvy |
+| Образование      | Детские сады      | WIP | https://data.mos.ru/opendata/detskie-sady |
+| Медицина      | Взрослые больницы      | 44        |   https://data.mos.ru/opendata/7707089084-bolnitsy-vzroslye |
+| Медицина      | Детские и спец. больницы      | 16        |   https://data.mos.ru/opendata/7707089084-bolnitsy-detskie |
+| Медицина      | Поликлиники      | 276        |   https://data.mos.ru/opendata/7707089084-poliklinicheskaya-pomoshch-vzroslym |
+| Транспорт | Вестибюли метро | 1020        |    https://data.mos.ru/opendata/7704786030-vhody-i-vyhody-vestibyuley-stantsiy-moskovskogo-metropolitena |
+| Транспорт | Остановки наземное общественного транспорта | 12197        |    https://data.mos.ru/opendata/7704786030-marshruty-i-ostanovki-nazemnogo-gorodskogo-passajirskogo-transporta-ostanovki |
+| Культура | Объекты культурного наследия | 8330        |    https://data.mos.ru/opendata/7705021556-obekty-kulturnogo-naslediya-i-vyyavlennye-obekty-kulturnogo-naslediya |
+| Культура | Учреждения культуры | 1834       |    https://data.mos.ru/opendata/7702155262-interaktivnaya-karta-uchrejdeniy-kultury-goroda-moskvy |
+| Спорт| Спортивные объекты | 320        |    https://data.mos.ru/opendata/7708308010-sportivnye-obekty-goroda-moskvy |
+| Религия | Православие | 551        |    https://data.mos.ru/opendata/7704253498-religioznye-obekty-russkoy-pravoslavnoy-tserkvi |
+| Религия | Католицизм | 3        |    https://data.mos.ru/opendata/7704253498-katolicheskie-hramy |
+| Религия | Ислам | 4        |    https://data.mos.ru/opendata/7704253498-mecheti |
+| Религия | Синагоги | 5        |    https://data.mos.ru/opendata/7704253498-sinagogi |
+| Торговля | Стационарные торговые объекты | 42586        |    https://data.mos.ru/opendata/7710881420-statsionarnye-torgovye-obekty |
+| Торговля | Бытовые услуги | 12579        |    https://data.mos.ru/opendata/7710881420-bytovye-uslugi-na-territorii-moskvy |
+| Торговля | Общественное питание | 17454        |    https://data.mos.ru/opendata/7710881420-obshchestvennoe-pitanie-v-moskve |
+| Досуг | Парковые зоны | 1134        |    https://data.mos.ru/opendata/7710878000-parkovye-territorii |
+| Животные | Площадки выгула собак | 505        |    https://data.mos.ru/opendata/7710878000-ploshchadki-dlya-vygula-dressirovki-sobak |
+
+## Принцип конкатенации
+
+1. Обновление геоданных по шаблону.
+2. Создание классификации по типу объекта.
+3. Последовательное соединение отформатированных.
+
+## Пример финального датасета
+
+| ID  | geoData  | Name | AdmArea  | District | Address | Category
+| :------------| :------------ |:---------------| :-----| :-----| :-----| :-----|
