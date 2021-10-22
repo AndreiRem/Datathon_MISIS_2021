@@ -3,8 +3,7 @@ import os
 
 from src.utils import (get_df,
                        add_subcategory,
-                       add_category,
-                       add_id)
+                       add_category)
 
 
 def parse_df(data_info, group_name, allowed_file_name, allowed_file_format, rename_columns_method):
@@ -41,7 +40,6 @@ def parse_df(data_info, group_name, allowed_file_name, allowed_file_format, rena
 
     add_category(df, group_name)
     add_subcategory(df, allowed_file_name)
-    # add_id(df)
 
     return df.reset_index(drop=True)
 

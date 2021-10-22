@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 from typing import Dict, Any
 import json
@@ -24,10 +25,6 @@ def add_subcategory(df, sub_category_name):
 
 def add_category(df, category_name):
     df['Category'] = category_name
-
-
-def add_id(df, id_column='ID', category_column='Category', subcategory_column='SubCategory'):
-    df['ID'] = df[category_column].map(str) + '.' + df[subcategory_column].map(str) + '.' + df[id_column].map(str)
 
 
 def get_data_folder_info(data_folder, allowed_file_formats=['json', 'xlsx', 'xml']) -> Dict[str, Any]:
@@ -84,4 +81,14 @@ def parse_coordinates(df):
         elif geoData['type'] == 'Polygon':
             pass
 
-    df['geoData'] = df[['geoData']].apply(parse, axis=1)
+    geo_data = list(zip(*df[['geoData']].apply(parse, axis=1)))
+    df['geoDataLatitude'] = geo_data[1]
+    df['geoDataLongitude'] = geo_data[0]
+    del df['geoData']
+
+
+def set_types(df):
+    df = df.fillna('')
+    df['ID'] = df['ID'].astype(dtype=np.int32)
+    for column_name in ['AdmArea', 'Category', 'SubCategory', 'DistrictType', 'DistrictName']:
+        df[column_name] = df[column_name].astype('category')

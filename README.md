@@ -1,5 +1,22 @@
-# datathon2021
-Данный датасет собран для соревнования Дататон 2021 от команды "Team Meldonium".
+# Datathon2021
+Данный датасет собран для соревнования Дататон 2021 (МИСиС) от команды "Team Meldonium".
+
+## Состав команды "The Meldonium"
+**Проджект-менеджер:** Мамаев Павел
+
+**Продакт-менеджер:** Александра
+
+**Разработка:**
+- Мамаев Павел
+- Александра Питерова
+- Андрей Рем
+- Ростислав Соломасов
+- Тотьмянин Сергей
+
+**Аналитика:**
+- Сергей Глуховский
+- Ростислав Соломасов
+- Алексей Новоселов
 
 ## Цели создания
 Проект преследует цель агрегирования данных по разным общественным местам, привязанным к районам или иным геометкам на карте г. Москвы. Таким образом одновременно решается сразу несколько задач, в том числе:
@@ -18,16 +35,15 @@
 | Категория  | Тип объекта  | Количество | Ссылка  |
 | :------------| :------------ |:---------------:| :-----|
 | Образование      | Университеты      | 295 | https://data.mos.ru/opendata/7710878000-obrazovatelnye-organizatsii-vysshego-obrazovaniya-osushchestvlyayushchie-deyatelnost-na-territorii-goroda-moskvy-i-predostavlyayushchie-pravo-na-besplatnoe-oformlenie-sotsialnoy-karty |
-| Образование      | Школы_1      | 590 | https://data.mos.ru/opendata/7719028495-obrazovatelnye-uchrejdeniya-goroda-moskvy |
-| Образование      | Школы_2      | 149 | https://data.mos.ru/opendata/7719028495-perechen-negosudarstvennyh-doshkolnyh-obrazovatelnyh-organizatsiy-goroda-moskvy |
-| Образование      | Детские сады      | WIP | https://data.mos.ru/opendata/detskie-sady |
+| Образование      | Школы      | 590 | https://data.mos.ru/opendata/7719028495-obrazovatelnye-uchrejdeniya-goroda-moskvy |
 | Медицина      | Взрослые больницы      | 44        |   https://data.mos.ru/opendata/7707089084-bolnitsy-vzroslye |
 | Медицина      | Детские и спец. больницы      | 16        |   https://data.mos.ru/opendata/7707089084-bolnitsy-detskie |
 | Медицина      | Поликлиники      | 276        |   https://data.mos.ru/opendata/7707089084-poliklinicheskaya-pomoshch-vzroslym |
 | Транспорт | Вестибюли метро | 1020        |    https://data.mos.ru/opendata/7704786030-vhody-i-vyhody-vestibyuley-stantsiy-moskovskogo-metropolitena |
+| Транспорт | Вестибюли метро МЦД | 212        |    https://data.mos.ru/opendata/7704786030-vhody-i-vyhody-vestibyuley-stantsiy-moskovskogo-metropolitena |
 | Транспорт | Остановки наземное общественного транспорта | 12197        |    https://data.mos.ru/opendata/7704786030-marshruty-i-ostanovki-nazemnogo-gorodskogo-passajirskogo-transporta-ostanovki |
 | Культура | Объекты культурного наследия | 8330        |    https://data.mos.ru/opendata/7705021556-obekty-kulturnogo-naslediya-i-vyyavlennye-obekty-kulturnogo-naslediya |
-| Культура | Учреждения культуры | 1834       |    https://data.mos.ru/opendata/7702155262-interaktivnaya-karta-uchrejdeniy-kultury-goroda-moskvy |
+| Культура | Музеи | 55       |    https://data.mos.ru/opendata/7702155262-muzei |
 | Спорт| Спортивные объекты | 320        |    https://data.mos.ru/opendata/7708308010-sportivnye-obekty-goroda-moskvy |
 | Религия | Православие | 551        |    https://data.mos.ru/opendata/7704253498-religioznye-obekty-russkoy-pravoslavnoy-tserkvi |
 | Религия | Католицизм | 3        |    https://data.mos.ru/opendata/7704253498-katolicheskie-hramy |
@@ -39,11 +55,14 @@
 | Досуг | Парковые зоны | 1134        |    https://data.mos.ru/opendata/7710878000-parkovye-territorii |
 | Животные | Площадки выгула собак | 505        |    https://data.mos.ru/opendata/7710878000-ploshchadki-dlya-vygula-dressirovki-sobak |
 
-## Принцип конкатенации
+## Принцип сборки датасета
 
-1. Обновление геоданных по шаблону.
-2. Создание классификации по типу объекта.
-3. Последовательное соединение отформатированных.
+1. Парсинг каждого из наборов данных в формат ниже в примере фиального датасета.
+2. Создание столбцов категории и сабкатегории каждого из наборов данных для их классификации.
+3. Последовательное конкатенирование обработанных наборов данных.
+4. Постобработка столбцов: район (District) и координаты (geoData).
+
+*5. Восстановление названий административных областей (AdmArea), районов (District) и адреса (Address).
 
 ## Пример финального датасета
 
