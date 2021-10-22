@@ -85,10 +85,3 @@ def parse_coordinates(df):
     df['geoDataLatitude'] = geo_data[1]
     df['geoDataLongitude'] = geo_data[0]
     del df['geoData']
-
-
-def set_types(df):
-    df = df.fillna('')
-    df['ID'] = df['ID'].astype(dtype=np.int32)
-    for column_name in ['AdmArea', 'Category', 'SubCategory', 'DistrictType', 'DistrictName']:
-        df[column_name] = df[column_name].astype('category')
