@@ -84,3 +84,25 @@ def create_religion_df(data_info):
     religion_df = pd.concat((catholics_df, mosques_df, monasteries_df, rpc_df, synagogues_df), ignore_index=True)
 
     return religion_df
+
+
+def create_transport_df(data_info):
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'Name',
+                       'Address': 'Address',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    subway_exits_df = parse_df(data_info, 'Транспорт', 'Входы и выходы вестибюлей станций Московского метрополитена', 'json', allowed_columns)
+
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'Name',
+                       'Address': 'Address',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    mcd_subway_exits_df = parse_df(data_info, 'Транспорт', 'Входы и выходы станций Московских центральных диаметров', 'json', allowed_columns)
+
+    transport_df = pd.concat((subway_exits_df, mcd_subway_exits_df), ignore_index=True)
+
+    return transport_df

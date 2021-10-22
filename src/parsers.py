@@ -9,9 +9,10 @@ from src.utils import (get_df,
 
 def parse_df(data_info, group_name, allowed_file_name, allowed_file_format, rename_columns_method):
     df = None
+    allowed_file_name = allowed_file_name.replace('̆', '').replace('й', 'и')
     file_paths = data_info.get(group_name, [])
     for file_path in file_paths:
-        file_name = os.path.basename(file_path)
+        file_name = os.path.basename(file_path).replace('̆', '').replace('й', 'и')
         file_name, file_format = file_name.split('.')
 
         if file_name == allowed_file_name and file_format == allowed_file_format:
