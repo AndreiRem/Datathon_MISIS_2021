@@ -115,3 +115,15 @@ def parse_med(raw_df, file_name):
         'AdmArea': raw_df['AdmArea'],
         'ID': raw_df['global_id'],
     })
+
+
+def parse_culture_museum(raw_df, file_name):
+    raw_df = parse_object_address(raw_df, 'ObjectAddress')
+    return pd.DataFrame({
+        'geoData': raw_df['geodata_center'],
+        'Name': raw_df['FullName'],
+        'District': raw_df['District'],
+        'Address': raw_df['Address'],
+        'AdmArea': raw_df['AdmArea'],
+        'ID': raw_df['global_id'],
+    })

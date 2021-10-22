@@ -1,7 +1,8 @@
 import pandas as pd
 from src.parsers import (parse_df,
                          parse_med,
-                         parse_sport)
+                         parse_sport,
+                         parse_culture_museum)
 
 
 def create_edu_df(data_info):
@@ -103,7 +104,15 @@ def create_transport_df(data_info):
                        'geoData': 'geodata_center'}
     mcd_subway_exits_df = parse_df(data_info, 'Транспорт', 'Входы и выходы станций Московских центральных диаметров', 'json', allowed_columns)
 
-    transport_df = pd.concat((subway_exits_df, mcd_subway_exits_df), ignore_index=True)
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'StationName',
+                       'Address': 'Address',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    vehicle_df = parse_df(data_info, 'Транспорт', 'Маршруты и остановки наземного городского пассажирского транспорта', 'json', allowed_columns)
+
+    transport_df = pd.concat((subway_exits_df, mcd_subway_exits_df, vehicle_df), ignore_index=True)
 
     return transport_df
 
@@ -135,3 +144,32 @@ def create_animals_df(data_info):
     animals_df['Name'] = 'Площадка для выгула собак'
 
     return animals_df
+
+
+def create_culture_df(data_info):
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'ObjectNameOnDoc',
+                       'Address': 'Location',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    culture_objects_df = parse_df(data_info, 'Культура', 'Объекты культурного наследия', 'json', allowed_columns)
+    culture_objects_df['Address'] = culture_objects_df['Address'].apply(lambda x: x[0]['Address'])
+
+    culture_museum_df = parse_df(data_info, 'Культура', 'Музеи', 'json', parse_culture_museum)
+
+    culture_df = pd.concat((culture_objects_df, culture_museum_df), ignore_index=True)
+
+    return culture_df
+
+
+def create_entertainment_df(data_info):
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'CommonName',
+                       'Address': 'Location',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    parks_df = parse_df(data_info, 'Досуг', 'Парки', 'json', allowed_columns)
+
+    return parks_df
