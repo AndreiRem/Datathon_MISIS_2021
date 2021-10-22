@@ -106,3 +106,19 @@ def create_transport_df(data_info):
     transport_df = pd.concat((subway_exits_df, mcd_subway_exits_df), ignore_index=True)
 
     return transport_df
+
+
+def create_service_df(data_info):
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'Name',
+                       'Address': 'Address',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    commerce_services_df = parse_df(data_info, 'Торговля', 'Бытовые услуги', 'json', allowed_columns)
+    commerce_food_service_df = parse_df(data_info, 'Торговля', 'Общественное питание', 'json', allowed_columns)
+    commerce_stationary = parse_df(data_info, 'Торговля', 'Стационарные торговые объекты', 'json', allowed_columns)
+
+    service_df = pd.concat((commerce_services_df, commerce_food_service_df, commerce_stationary), ignore_index=True)
+
+    return service_df
