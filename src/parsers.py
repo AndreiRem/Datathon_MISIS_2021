@@ -22,6 +22,7 @@ def parse_df(data_info, group_name, allowed_file_name, allowed_file_format, rena
         raise ValueError(f"There is no '{allowed_file_name}.{allowed_file_format}' in '{group_name}' group!")
 
     if isinstance(rename_columns_method, dict):
+        rename_columns_method = {v: k for k, v in rename_columns_method.items()}
         try:
             df = df[list(rename_columns_method.keys())].rename(columns=rename_columns_method)
         except KeyError:
