@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from typing import Dict, Any
+import json
 
 
 def get_df(path, file_format='json'):
@@ -47,14 +48,40 @@ def get_data_folder_info(data_folder, allowed_file_formats=['json', 'xlsx', 'xml
     return data_folder_info
 
 
-def get_district(df, in_district_column, out_district_column_name, out_district_column_type):
-    allowed_district_types = ['район', 'поселение']
-    district_names = []
-    district_types = []
+def get_district_type_name(df):
+    def parse(district):
+        if isinstance(district, str):
+            for district_type in ['поселение', 'район']:
+                if district_type in district:
+                    district_name = ''.join(district.split(district_type)).strip()
+                    return [district_type, district_name]
 
-    districts_data = df[in_district_column].to_numpy()
-    for district_data in districts_data:
-        for word in district_data.split():
-            if word in allowed_district_types:
-                district_types.append(word)
+        else:
+            return [None, None]
 
+    district_types_names = list(zip(*df['District'].apply(parse).values))
+    df['DistrictType'] = district_types_names[0]
+    df['DistrictName'] = district_types_names[1]
+    del df['District']
+
+
+def parse_coordinates(df):
+    def parse(row):
+        # Словарь
+        if type(row['geoData']) == dict:
+            geoData = row['geoData']
+        # Лист с 2-мя координатами
+        elif type(row['geoData']) == list and len(row['geoData']) == 2:
+            return row['geoData']
+        # Возможно словарь
+        elif type(row['geoData']) == str:
+            geoData = json.loads(row['geoData'])
+
+        if len(geoData['coordinates']) == 2 and geoData['type'] == 'Point':
+            return geoData['coordinates']
+        elif geoData['type'] == 'MultiPoint':
+            return geoData['coordinates'][0]
+        elif geoData['type'] == 'Polygon':
+            pass
+
+    df['geoData'] = df[['geoData']].apply(parse, axis=1)

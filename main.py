@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-from src.utils import get_data_folder_info
+from src.utils import get_data_folder_info, parse_coordinates, get_district_type_name
 from src.create_df import (create_edu_df,
                            create_med_df,
                            create_sport_df,
@@ -34,5 +34,8 @@ res_df = pd.concat((edu_df,
                     service_df,
                     animals_df,
                     culture_df), ignore_index=True)
+
+parse_coordinates(res_df)
+get_district_type_name(res_df)
 
 res_df.to_csv(os.path.join(ROOT_FOLDER, 'dataset.csv'), index=False)

@@ -101,7 +101,7 @@ def create_transport_df(data_info):
                        'Address': 'Address',
                        'AdmArea': 'AdmArea',
                        'District': 'District',
-                       'geoData': 'geodata_center'}
+                       'geoData': 'geoData'}
     mcd_subway_exits_df = parse_df(data_info, 'Транспорт', 'Входы и выходы станций Московских центральных диаметров', 'json', allowed_columns)
 
     allowed_columns = {'ID': 'global_id',
@@ -109,7 +109,7 @@ def create_transport_df(data_info):
                        'Address': 'Address',
                        'AdmArea': 'AdmArea',
                        'District': 'District',
-                       'geoData': 'geodata_center'}
+                       'geoData': 'geoData'}
     vehicle_df = parse_df(data_info, 'Транспорт', 'Маршруты и остановки наземного городского пассажирского транспорта', 'json', allowed_columns)
 
     transport_df = pd.concat((subway_exits_df, mcd_subway_exits_df, vehicle_df), ignore_index=True)
