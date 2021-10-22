@@ -65,7 +65,7 @@
 *5. Восстановление названий административных областей (AdmArea), районов (District) и адреса (Address).
 
 ## Пример финального датасета
-| ID  | geoDataLatitude  | geoDataLongitude | Name | AdmArea  | DistrictType | DistrictType | Address | Category | SubCategory |
+| ID  | geoDataLatitude  | geoDataLongitude | Name | AdmArea  | DistrictType | DistrictName | Address | Category | SubCategory |
 | :------------| :------------ | :------------ | :------------ | :---------------| :-----| :-----| :-----| :-----| :-----|
 | 1007321747	| 55.838165 | 37.528375 | NaN | NaN | NaN | NaN | NaN | Транспорт | Маршруты и остановки наземного городского пассажирского транспорта |
 | 905408290	| 55.796625 | 37.699522 | Мультисервис | Восточный административный округ | район | Сокольники | город Москва, Колодезный переулок, дом 3 | Торговля | Бытовые услуги |
