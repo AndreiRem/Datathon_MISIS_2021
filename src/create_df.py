@@ -122,3 +122,16 @@ def create_service_df(data_info):
     service_df = pd.concat((commerce_services_df, commerce_food_service_df, commerce_stationary), ignore_index=True)
 
     return service_df
+
+
+def create_animals_df(data_info):
+    allowed_columns = {'ID': 'global_id',
+                       'Name': 'Name',
+                       'Address': 'Location',
+                       'AdmArea': 'AdmArea',
+                       'District': 'District',
+                       'geoData': 'geodata_center'}
+    animals_df = parse_df(data_info, 'Животные', 'Площадки для выгула собак', 'json', allowed_columns)
+    animals_df['Name'] = 'Площадка для выгула собак'
+
+    return animals_df
