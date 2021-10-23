@@ -57,6 +57,7 @@ def get_district_type_name(df):
             return [None, None]
 
     district_types_names = list(zip(*df['District'].apply(parse).values))
+    print(district_types_names)
     df['DistrictType'] = district_types_names[0]
     df['DistrictName'] = district_types_names[1]
     del df['District']
@@ -72,20 +73,22 @@ def parse_coordinates(df):
             return row['geoData']
         # Возможно словарь
         elif type(row['geoData']) == str:
-            geoData = json.loads(row['geoData'])
-
+            geoData = json.loads(row['geoData'].replace("\'", "\""))            
+        
         if len(geoData['coordinates']) == 2 and geoData['type'] == 'Point':
             return geoData['coordinates']
         elif geoData['type'] == 'MultiPoint':
             return geoData['coordinates'][0]
-        elif geoData['type'] == 'Polygon':
-            pass
 
-    geo_data = list(zip(*df[['geoData']].apply(parse, axis=1)))
+    df['geoData'] = df.apply(parse, axis=1)
+
+def set_geoDate_to_new_columns(df):
+    def eval_geoData(row):
+        return eval(row['geoData'])
+    geo_data = list(zip(*df[['geoData']].apply(eval_geoData, axis=1)))
     df['geoDataLatitude'] = geo_data[1]
     df['geoDataLongitude'] = geo_data[0]
     del df['geoData']
-
 
 def set_types(df):
     df = df.fillna('')
@@ -94,3 +97,33 @@ def set_types(df):
         df[column_name] = df[column_name].astype('category')
 
     return df
+
+def get_address_district_admarea(row):
+    if pd.isna(row['AdmArea']) or pd.isna(row['District']) or pd.isna(row['Address']):
+        locate = sorted(eval(row['geoData']), reverse=True)
+        locate = f'{locate[0]}, {locate[1]}'
+        while True:
+            try:
+                r = requests.post('https://geocode.xyz/', data={'locate': locate, 'geoit': "JSON"})
+                data = json.loads(r._content, encoding='cp1251')
+                if 'adminareas' in data:
+                    print('before', row['AdmArea'], row['District'], row['Address'], locate)
+                    if 'admin5' in data['adminareas']:
+                        row['AdmArea'] = data['adminareas']['admin5']['name']
+                    elif 'admin6' in data['adminareas']:
+                        row['AdmArea'] = data['adminareas']['admin6']['name']
+                    row['District'] = data['osmtags']['wikipedia'][3:]
+                    row['Address'] = data['staddress']
+                    print('after ', row['AdmArea'], row['District'], row['Address'])
+                    return row
+                else:
+                    print('ups!!!')
+                    raise LookupError
+
+            except KeyError as e:
+                print(e, '###############')
+                raise KeyError
+            except LookupError:
+                continue
+    else:
+        return row

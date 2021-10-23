@@ -35,8 +35,15 @@ res_df = pd.concat((edu_df,
                     animals_df,
                     culture_df), ignore_index=True)
 
+# Подготавливаем координаты для подгрузки пропущенных адресов
 parse_coordinates(res_df)
+# Загружаем пропущенные адреса
+# res_df.apply(get_address_district_admarea, axis=1)
+# Избавляемся от поля geoData и сохраняем его значения в 2 новых столбца
+set_geoDate_to_new_columns(res_df)
+# Разделяем данные из поля район на тип и название
 get_district_type_name(res_df)
+
 res_df = set_types(res_df)
 
 res_df.to_csv(os.path.join(ROOT_FOLDER, 'dataset.csv'), index=False)
